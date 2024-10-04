@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { TextField, Button, Typography, Box, Alert } from '@mui/material';
 
-export default function Login() {
+export default function SignUp() {
   const [formData, setFormData] = useState({
+    name:'',
     email: '',
     password: '',
+    confirmpassword:'',
   });
   const [error, setError] = useState('');
 
@@ -61,8 +63,16 @@ export default function Login() {
       onSubmit={handleSubmit}
       sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 300, margin: 'auto', padding: 2 }}
     >
-      <Typography variant="h5" align="center">Log In</Typography>
+      <Typography variant="h5" align="center">Sign Up</Typography>
       {error && <Alert severity="error">{error}</Alert>}
+      <TextField
+        label="Name"
+        type="name"
+        name="name"
+        value={formData.name}
+        onChange={handleChange}
+        required
+      />
       <TextField
         label="Email"
         type="email"
@@ -79,7 +89,15 @@ export default function Login() {
         onChange={handleChange}
         required
       />
-      <Button type="submit" variant="contained">Log In</Button>
+      <TextField
+        label="ConfirmPassword"
+        type="confirmpassword"
+        name="confirmpassword"
+        value={formData.confirmpassword}
+        onChange={handleChange}
+        required
+      />
+      <Button type="submit" variant="contained">SignUp</Button>
     </Box>
   );
 }
