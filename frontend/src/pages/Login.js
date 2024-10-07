@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { TextField, Button, Typography, Box, Alert } from '@mui/material';
+import React, { useState } from "react";
+import { TextField, Button, Typography, Box, Alert } from "@mui/material";
 
 export default function Login() {
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,7 +17,7 @@ export default function Login() {
   };
 
   const handleLogin = () => {
-    const url = "http://localhost:5000/user"; // Update this URL based on your backend endpoint
+    const url = "http://localhost:5000/user/login"; // Update this URL based on your backend endpoint
     const options = {
       method: "POST",
       headers: {
@@ -30,7 +30,7 @@ export default function Login() {
     fetch(url, options)
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok ' + response.statusText);
+          throw new Error("Network response was not ok " + response.statusText);
         }
         return response.json();
       })
@@ -39,16 +39,16 @@ export default function Login() {
         // Handle successful login here (e.g., redirect or update state)
       })
       .catch((error) => {
-        console.error('There was a problem with the fetch operation:', error);
-        setError('Login failed. Please check your credentials.');
+        console.error("There was a problem with the fetch operation:", error);
+        setError("Login failed. Please check your credentials.");
       });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const { username, email, password, age } = formData;
-    if (!username || !email || !password || !age) {
-      setError('All fields are required.');
+    const { email, password } = formData;
+    if (!email || !password) {
+      setError("All fields are required.");
       return;
     }
 
@@ -59,9 +59,18 @@ export default function Login() {
     <Box
       component="form"
       onSubmit={handleSubmit}
-      sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 300, margin: 'auto', padding: 2 }}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+        maxWidth: 300,
+        margin: "auto",
+        padding: 2,
+      }}
     >
-      <Typography variant="h5" align="center">Log In</Typography>
+      <Typography variant="h5" align="center">
+        Log In
+      </Typography>
       {error && <Alert severity="error">{error}</Alert>}
       <TextField
         label="Email"
@@ -79,7 +88,9 @@ export default function Login() {
         onChange={handleChange}
         required
       />
-      <Button type="submit" variant="contained">Log In</Button>
+      <Button type="submit" variant="contained">
+        Log In
+      </Button>
     </Box>
   );
 }
