@@ -31,11 +31,12 @@ const ProductDescription = ({ productId, ADD, DELETE, cartItems }) => {
 
   const handleAddtoCart = (product) => {
     if (size === "") {
-      <Stack sx={{ width: "100%" }} spacing={2}>
-        <Alert variant="filled" severity="error">
-          This is an error Alert.
-        </Alert>
-      </Stack>;
+      alert("Please Select Size");
+      // <Stack sx={{ width: "100%" }} spacing={2}>
+      //   <Alert variant="filled" severity="error">
+      //     This is an error Alert.
+      //   </Alert>
+      // </Stack>;
       return;
     }
     const modifiedProduct = {
@@ -91,7 +92,7 @@ const ProductDescription = ({ productId, ADD, DELETE, cartItems }) => {
             ₹{product?.price}
           </p>
           <p>{product?.description}</p>
-          <Size sizes={product?.sizes} setSize={setSize} />
+          <Size sizes={product?.sizes} setSize={setSize} selectedSize={size}/>
           {/* <Link
             to="/cart"
             state={{size,productId}}

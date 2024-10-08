@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { TextField, Button, Typography, Box, Alert } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Typography,
+  Box,
+  Alert,
+  Container,
+  Paper,
+} from "@mui/material";
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
@@ -74,60 +82,91 @@ export default function SignUp() {
   };
 
   return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit}
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        gap: 2,
-        minWidth: 400,
-        margin: "auto",
-        padding: 2,
-      }}
-    >
-      <Typography variant="h5" align="center">
-        Sign Up
-      </Typography>
-      {error && <Alert severity="error">{error}</Alert>}
-      <TextField
-        label="Name"
-        type="name"
-        name="name"
-        value={formData.name}
-        onChange={handleChange}
-        required
-      />
-      <TextField
-        label="Email"
-        type="email"
-        name="email"
-        value={formData.email}
-        onChange={handleChange}
-        required
-      />
-      <TextField
-        label="Password"
-        type="password"
-        name="password"
-        value={formData.password}
-        onChange={handleChange}
-        required
-      />
-      <TextField
-        label="ConfirmPassword"
-        type="confirmPassword"
-        name="confirmPassword"
-        value={formData.confirmPassword}
-        onChange={handleChange}
-        required
-      />
-      <Button type="submit" variant="contained">
-        SignUp
-      </Button>
-      <Link to="/login" style={{ textDecoration: "none" }}>
-        <button>Log In</button>
-      </Link>
-    </Box>
+    <Container component="main" maxWidth="xs">
+      <Paper elevation={3} sx={{ padding: 4, borderRadius: 2 }}>
+        <Typography variant="h5" align="center" sx={{ mb: 2 }}>
+          Sign Up
+        </Typography>
+        {error && <Alert severity="error">{error}</Alert>}
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          sx={{ mt: 1 }}
+          // sx={{
+          //   display: "flex",
+          //   flexDirection: "column",
+          //   gap: 2,
+          //   minWidth: 400,
+          //   margin: "auto",
+          //   padding: 2,
+          // }}
+        >
+          <TextField
+            label="Name"
+            type="name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            sx={{ backgroundColor: "#f5f5f5" }}
+          />
+          <TextField
+            label="Email"
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            sx={{ backgroundColor: "#f5f5f5" }}
+          />
+          <TextField
+            label="Password"
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            sx={{ backgroundColor: "#f5f5f5" }}
+          />
+          <TextField
+            label="ConfirmPassword"
+            type="confirmPassword"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            required
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            sx={{ backgroundColor: "#f5f5f5" }}
+          />
+          <Button type="submit" variant="contained" fullWidth sx = {{mt:2}}>
+            SignUp
+          </Button>
+          <Link
+            to="/login"
+            style={{
+              textDecoration: "none",
+              display: "block",
+              marginTop: "16px",
+              textAlign: "center",
+            }}
+          >
+            <Button variant="outlined" fullWidth>
+              Log In
+            </Button>
+          </Link>
+        </Box>
+      </Paper>
+    </Container>
   );
 }
