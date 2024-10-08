@@ -162,6 +162,7 @@ const CartDescription = ({ DELETE, cartItems, MODIFY }) => {
 
   const handleDelete = (productId) => {
     DELETE(productId);
+    console.log(cartItems);
   };
 
   // useEffect(() => {

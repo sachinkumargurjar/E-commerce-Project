@@ -58,6 +58,8 @@ export const login = async (req, res, next) => {
       .json({ error: "Both email and password are required." });
   }
 
+  
+
   // console.log(email,password);
 
   const user = await User.findOne({ email }).select("+password");
