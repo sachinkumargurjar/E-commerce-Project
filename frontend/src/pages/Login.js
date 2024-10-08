@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link,useNavigate, useLocation } from "react-router-dom";
 import { TextField, Button, Typography, Box, Alert } from "@mui/material";
 
 export default function Login() {
@@ -7,6 +8,9 @@ export default function Login() {
     password: "",
   });
   const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from || "/";
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -16,7 +20,7 @@ export default function Login() {
     }));
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     const url = "http://localhost:5000/user/login"; // Update this URL based on your backend endpoint
     const options = {
       method: "POST",
@@ -27,21 +31,32 @@ export default function Login() {
       body: JSON.stringify(formData), // Send the entire formData object
     };
 
-    fetch(url, options)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok " + response.statusText);
+    try {
+      const response = await fetch(url,options);
+      const data = await response.json();
+      if(!response.ok){
+        throw new Error (data.message || "login failed");
+      }
+
+      console.log(data);
+      
+      const token = data.token;
+
+      sessionStorage.setItem("jwt", token);
+
+      setError("Login successful");
+      setFormData(
+        {
+          email:"",
+          password:""
         }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        // Handle successful login here (e.g., redirect or update state)
-      })
-      .catch((error) => {
-        console.error("There was a problem with the fetch operation:", error);
-        setError("Login failed. Please check your credentials.");
-      });
+      )
+      navigate(from, { replace: true });
+      
+    } catch (error) {
+      console.log("error", error)
+      setError(error.message)
+    }
   };
 
   const handleSubmit = (event) => {
@@ -63,8 +78,9 @@ export default function Login() {
         display: "flex",
         flexDirection: "column",
         gap: 2,
-        maxWidth: 300,
+        minWidth: 400,
         margin: "auto",
+        marginTop:"32.573px",
         padding: 2,
       }}
     >
@@ -91,6 +107,9 @@ export default function Login() {
       <Button type="submit" variant="contained">
         Log In
       </Button>
+      <Link to="/signup" style={{ textDecoration: "none", width:"20px" }}>
+        <button>Sign Up</button>
+      </Link>
     </Box>
   );
 }

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { TextField, Button, Typography, Box, Alert } from "@mui/material";
 
 export default function SignUp() {
@@ -19,7 +20,7 @@ export default function SignUp() {
     }));
   };
 
-  const handleSignup = () => {
+  const handleSignup = async () => {
     console.log("sdbfkbkbekghb");
     console.log(formData);
     const url = "http://localhost:5000/user/signup"; // Update this URL based on your backend endpoint
@@ -32,28 +33,27 @@ export default function SignUp() {
       body: JSON.stringify(formData), // Send the entire formData object
     };
     console.log("sdbfkbkbekghb");
-    fetch(url, options)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok " + response.statusText);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("signup successful");
-        // console.log(data);
-        // Handle successful login here (e.g., redirect or update state)
-      })
-      .catch((error) => {
-        console.error("There was a problem with the fetch operation:", error);
-        setError("Login failed. Please check your credentials.");
+
+    try {
+      const response = await fetch(url, options);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Sign up failed.");
+      }
+
+      console.log("Signup successful:", data);
+      setError("Successfully signed up.");
+      setFormData({
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
       });
-    setFormData({
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    });
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+      setError(error.message);
+    }
   };
 
   const handleSubmit = (event) => {
@@ -62,6 +62,11 @@ export default function SignUp() {
     const { name, email, password, confirmPassword } = formData;
     if (!name || !email || !password || !confirmPassword) {
       setError("All fields are required.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
       return;
     }
 
@@ -76,7 +81,7 @@ export default function SignUp() {
         display: "flex",
         flexDirection: "column",
         gap: 2,
-        maxWidth: 300,
+        minWidth: 400,
         margin: "auto",
         padding: 2,
       }}
@@ -120,6 +125,9 @@ export default function SignUp() {
       <Button type="submit" variant="contained">
         SignUp
       </Button>
+      <Link to="/login" style={{ textDecoration: "none" }}>
+        <button>Log In</button>
+      </Link>
     </Box>
   );
 }
